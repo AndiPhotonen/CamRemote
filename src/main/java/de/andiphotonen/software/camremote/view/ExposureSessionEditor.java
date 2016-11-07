@@ -50,7 +50,7 @@ public class ExposureSessionEditor extends JDialog {
      * Main method for this Dialog. Opens a new dialog.
      * @param exposureSession
      */
-    public static void main(ExposureSession exposureSession) {
+    public static void main(final ExposureSession exposureSession) {
         ExposureSessionEditor dialog = new ExposureSessionEditor(exposureSession);
         dialog.pack();
         dialog.setVisible(true);
@@ -59,7 +59,7 @@ public class ExposureSessionEditor extends JDialog {
     /**
      * The Constructor
      */
-    private ExposureSessionEditor(ExposureSession exposureSession) {
+    private ExposureSessionEditor(final ExposureSession exposureSession) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addExposureBtn);
@@ -132,7 +132,7 @@ public class ExposureSessionEditor extends JDialog {
      * @param secondsSpinner Spinner for seconds.
      * @return ExposureSessionStepDuration
      */
-    private ExposureSessionStepDuration getDurationForExposureStep(JSpinner hoursSpinner, JSpinner minutesSpinner, JSpinner secondsSpinner){
+    private ExposureSessionStepDuration getDurationForExposureStep(final JSpinner hoursSpinner, final JSpinner minutesSpinner, final JSpinner secondsSpinner){
         Integer hours = (Integer) hoursSpinner.getValue();
         Integer minutes = (Integer) minutesSpinner.getValue();
         Integer seconds = (Integer) secondsSpinner.getValue();
@@ -146,7 +146,7 @@ public class ExposureSessionEditor extends JDialog {
      * @param secondsSpinner Spinner for seconds.
      * @param stepDuration The {@link ExposureSessionStepDuration} object with the values to set.
      */
-    private void setDurationForExposureStep(JSpinner hoursSpinner, JSpinner minutesSpinner, JSpinner secondsSpinner, ExposureSessionStepDuration stepDuration){
+    private void setDurationForExposureStep(final JSpinner hoursSpinner, final JSpinner minutesSpinner, final JSpinner secondsSpinner, final ExposureSessionStepDuration stepDuration){
         hoursSpinner.setValue(stepDuration.getHours());
         minutesSpinner.setValue(stepDuration.getMinutes());
         secondsSpinner.setValue(stepDuration.getSeconds());
@@ -156,7 +156,7 @@ public class ExposureSessionEditor extends JDialog {
      * Fills form with selected exposure session.
      * @param exposureSession The selected exposure session.
      */
-    private void fillForm(ExposureSession exposureSession){
+    private void fillForm(final ExposureSession exposureSession){
         exposureSessionNameTxt.setText(exposureSession.getSessionName());
         amountSpinner.setValue(exposureSession.getAmount());
 

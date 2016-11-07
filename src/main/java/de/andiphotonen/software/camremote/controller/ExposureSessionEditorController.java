@@ -41,7 +41,7 @@ public class ExposureSessionEditorController {
      * If exposureSessionName is not null, the dialog will be initialized with the associated {@link ExposureSession}
      * @param exposureSessionName The name of the exposureSession.
      */
-    public void openExposureEditorForm(String exposureSessionName){
+    public void openExposureEditorForm(final String exposureSessionName){
         ExposureSession selectedExposureSession = getExposureSessionMap().get(exposureSessionName);
         ExposureSessionEditor.main(selectedExposureSession);
     }
@@ -63,8 +63,8 @@ public class ExposureSessionEditorController {
      * @param amount The number of exposures.
      * @throws IllegalStateException If a field has an invalid value.
      */
-    public void addExposureSession(String name, ExposureSessionStepDuration delay, ExposureSessionStepDuration duration,
-                                   ExposureSessionStepDuration interval, Integer amount) throws IllegalArgumentException{
+    public void addExposureSession(final String name, final ExposureSessionStepDuration delay, final ExposureSessionStepDuration duration,
+                                   final ExposureSessionStepDuration interval, final Integer amount) throws IllegalArgumentException{
 
         ExposureSession newExposureSession = new ExposureSession(name, delay, duration, interval, amount);
         validateExposureSession(newExposureSession);
@@ -76,11 +76,15 @@ public class ExposureSessionEditorController {
      * Removes a exposureSession from the exposureSessionMap.
      * @param exposureSessionName The exposure name as key.
      */
-    public void removeExposureSession(String exposureSessionName){
+    public void removeExposureSession(final String exposureSessionName){
         getExposureSessionMap().remove(exposureSessionName);
     }
 
-    public void editExposureSession(String sessionName){
+    /**
+     * Opens editor dialog
+     * @param sessionName
+     */
+    public void editExposureSession(final String sessionName){
         openExposureEditorForm(sessionName);
     }
 
@@ -89,10 +93,8 @@ public class ExposureSessionEditorController {
      * @param session The {@link ExposureSession} to validate
      * @throws IllegalStateException If a field has an invalid value.
      */
-    private void validateExposureSession(ExposureSession session) throws IllegalArgumentException {
-        if(getExposureSessionMap().containsKey(session.getSessionName())){
-            throw new IllegalArgumentException (String.format("A exposure session with name '%s' already exists", session.getSessionName()));
-        }
+    private void validateExposureSession(final ExposureSession session) throws IllegalArgumentException {
+
         if(session.getSessionName() == null || session.getSessionName().isEmpty()){
             throw new IllegalArgumentException ("Exposure session has no name");
         }
@@ -150,7 +152,7 @@ public class ExposureSessionEditorController {
         return lastAddedExposureSession;
     }
 
-    public void setLastAddedExposureSession(ExposureSession lastAddedExposureSession) {
+    public void setLastAddedExposureSession(final ExposureSession lastAddedExposureSession) {
         this.lastAddedExposureSession = lastAddedExposureSession;
     }
 }

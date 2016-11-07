@@ -119,12 +119,6 @@ public class CamRemoteMainForm extends JFrame{
         });
     }
 
-    private void updateExposureSessionList(){
-        exposureList.setModel(exposureSessionListModel);
-
-
-    }
-
     /*-----------Listener Methods------------*/
     private void onAdd() {
         log.trace("addExposureBtn clicked");
@@ -161,11 +155,23 @@ public class CamRemoteMainForm extends JFrame{
     }
 
     private void onMoveUp() {
-        System.out.println("up");
+        Integer selectedIndex = exposureList.getSelectedIndex();
+        if(selectedIndex >= 1){
+            swapExposureSessions(selectedIndex, selectedIndex -1);
+            selectedIndex = selectedIndex -1;
+            exposureList.setSelectedIndex(selectedIndex);
+            updateExposureSessionList();
+        }
     }
 
     private void onMoveDown() {
-        System.out.println("down");
+        Integer selectedIndex = exposureList.getSelectedIndex();
+        if(selectedIndex < exposureSessionListModel.size()){
+            swapExposureSessions(selectedIndex, selectedIndex +1);
+            selectedIndex = selectedIndex +1;
+            exposureList.setSelectedIndex(selectedIndex);
+            updateExposureSessionList();
+        }
     }
 
     private void onStart() {
@@ -182,5 +188,16 @@ public class CamRemoteMainForm extends JFrame{
 
     private void onEdit() {
         editorController.editExposureSession(exposureList.getSelectedValue());
+    }
+
+    /*-------------helper methods------------------*/
+    private void updateExposureSessionList(){
+        exposureList.setModel(exposureSessionListModel);
+    }
+
+    private void swapExposureSessions(Integer pastPosition, Integer newPosition){
+        String tempExposureSession = exposureSessionListModel.get(newPosition);
+        exposureSessionListModel.setElementAt(exposureSessionListModel.get(pastPosition), newPosition);
+        exposureSessionListModel.setElementAt(tempExposureSession, pastPosition);
     }
 }
