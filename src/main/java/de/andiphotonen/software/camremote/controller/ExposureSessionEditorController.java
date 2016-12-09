@@ -101,7 +101,7 @@ public class ExposureSessionEditorController {
         if(session.getAmount() <= 0){
             throw new IllegalArgumentException (String.format("The number of exposures of the session '%s' have to be at least 1", session.getSessionName()));
         }
-        if(!session.getDuration().isDurationgreaterZero()){
+        if(!session.getDuration().isDurationGreaterZero()){
             throw new IllegalArgumentException (String.format("The duration of the session '%s' have to be longer than at least 1 second.", session.getSessionName()));
         }
     }
@@ -143,6 +143,15 @@ public class ExposureSessionEditorController {
 
     public void setExposureSessionMap(HashMap<String, ExposureSession> exposureSessionMap) {
         this.exposureSessionMap = exposureSessionMap;
+    }
+
+    /**
+     * Gets the {@link ExposureSession} with given name.
+     * @param exposureSessionName The name of the Exposure Session.
+     * @return the {@link ExposureSession}
+     */
+    public ExposureSession getExposureSession(String exposureSessionName){
+        return getExposureSessionMap().get(exposureSessionName);
     }
 
     public ExposureSession getLastAddedExposureSession() {

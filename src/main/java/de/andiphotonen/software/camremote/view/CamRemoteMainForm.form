@@ -130,12 +130,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="47f70" class="javax.swing.JLabel" binding="exposureStatusLbl">
+          <component id="47f70" class="javax.swing.JLabel" binding="exposureStepLbl">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Status_lbl"/>
+              <text value="Step_lbl"/>
             </properties>
           </component>
           <component id="d1c53" class="javax.swing.JTextField" binding="exposureStatusTimerTxt">
@@ -148,7 +148,7 @@
               <text value="00:00:00"/>
             </properties>
           </component>
-          <component id="55bb0" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="55bb0" class="javax.swing.JTextField" binding="exposureNrTxt">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

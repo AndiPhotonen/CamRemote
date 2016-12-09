@@ -47,7 +47,7 @@ public class ExposureSessionEditor extends JDialog {
     private static final String WINDOW_TITLE = "CamRemote";
 
     /**
-     * Main method for this Dialog. Opens a new dialog.
+     * CamRemoteMainFormController method for this Dialog. Opens a new dialog.
      * @param exposureSession
      */
     public static void main(final ExposureSession exposureSession) {

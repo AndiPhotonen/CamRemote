@@ -1,6 +1,8 @@
 package de.andiphotonen.software.camremote.view;
 
+import de.andiphotonen.software.camremote.controller.CamRemoteMainFormController;
 import de.andiphotonen.software.camremote.controller.ExposureSessionEditorController;
+import de.andiphotonen.software.camremote.model.ExposureSessionStepDuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +16,7 @@ import java.awt.event.MouseEvent;
  * Created by Andreas Kieburg on 26.10.2016.
  */
 public class CamRemoteMainForm extends JFrame{
+
     private JPanel contentPanel;
     private JPanel exposureListPanel;
     private JPanel exposureManagerPanel;
@@ -29,28 +32,25 @@ public class CamRemoteMainForm extends JFrame{
     private JButton stopExposureBtn;
     private JButton editExposureBtn;
     private JTextField exposureStatusTimerTxt;
-    private JLabel exposureStatusLbl;
-    private JTextField textField1;
+    private JLabel exposureStepLbl;
+    private JTextField exposureNrTxt;
     private JLabel exposureNumberLbl;
     private JList<String> exposureList;
 
-    private final static Logger log = LogManager.getLogger(CamRemoteMainForm.class);
+    private static final Logger log = LogManager.getLogger(CamRemoteMainForm.class);
     private static final String WINDOW_TITLE = "CamRemote";
 
     private ExposureSessionEditorController editorController = ExposureSessionEditorController.getInstance();
     private DefaultListModel<String> exposureSessionListModel;
 
-    public static void main(String[] args) {
-        log.trace("Initialize CamRemoteMainForm");
+    public CamRemoteMainForm(){
+        super("CamRemote");
+
         JFrame frame = new JFrame(WINDOW_TITLE);
-        frame.setContentPane(new CamRemoteMainForm().contentPanel);
+        frame.setContentPane(this.contentPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-    }
-
-    private CamRemoteMainForm(){
-        super("CamRemote");
         exposureSessionListModel = new DefaultListModel<>();
 
 
@@ -175,7 +175,7 @@ public class CamRemoteMainForm extends JFrame{
     }
 
     private void onStart() {
-        System.out.println("start");
+        CamRemoteMainFormController.startTimer(editorController.getExposureSessionMap().get(exposureList.getSelectedValue()));
     }
 
     private void onPauseResume() {
@@ -190,14 +190,49 @@ public class CamRemoteMainForm extends JFrame{
         editorController.editExposureSession(exposureList.getSelectedValue());
     }
 
+    public void updateExposureNrTxt(Integer exposureNr){
+        exposureNrTxt.setText(exposureNr.toString());
+    }
+
+    public void updateExposureStepLbl(String exposureStep){
+        exposureStepLbl.setText(exposureStep);
+    }
+
     /*-------------helper methods------------------*/
+
+    /**
+     * Updates the Countdown Panel.
+     * @param duration The current step duration.
+     */
+    public void updateStatusPanel(final ExposureSessionStepDuration duration){
+        String countdownString = String.format("%02d:%02d:%02d", duration.getHours(), duration.getMinutes(), duration.getSeconds());
+        exposureStatusTimerTxt.setText(countdownString);
+    }
+
+    /**
+     * Updates the list with the Sessions, which is displayed in the form.
+     */
     private void updateExposureSessionList(){
         exposureList.setModel(exposureSessionListModel);
     }
 
-    private void swapExposureSessions(Integer pastPosition, Integer newPosition){
+    /**
+     * Swaps two sessions inside the list in the form.
+     * @param pastPosition The actual position of the selected session.
+     * @param newPosition The new position of the selected session.
+     */
+    private void swapExposureSessions(final Integer pastPosition, final Integer newPosition){
         String tempExposureSession = exposureSessionListModel.get(newPosition);
         exposureSessionListModel.setElementAt(exposureSessionListModel.get(pastPosition), newPosition);
         exposureSessionListModel.setElementAt(tempExposureSession, pastPosition);
+    }
+
+/*----------------Getter & Setter----------------*/
+    public void setExposureStatusPanelText(String number){
+        exposureNrTxt.setText(number);
+    }
+
+    public void setexposureStepLblText(String step){
+        exposureStepLbl.setText(step);
     }
 }

@@ -19,6 +19,16 @@ public class ExposureSessionStepDuration {
     }
 
     /**
+     * Copy Constructor
+     * @param stepDuration The {@link ExposureSessionStepDuration} to copy
+     */
+    public ExposureSessionStepDuration(ExposureSessionStepDuration stepDuration){
+        this.hours = new Integer(stepDuration.getHours());
+        this.minutes = new Integer(stepDuration.getMinutes());
+        this.seconds = new Integer(stepDuration.getSeconds());
+    }
+
+    /**
      * Returns this duration in seconds
      * @return duration in seconds
      */
@@ -29,15 +39,38 @@ public class ExposureSessionStepDuration {
     }
 
     /**
+     * Converts duration in seconds to hours, minutes and seconds.
+     * @param durationInSeconds The duration in seconds
+     */
+    public void setDurationInSeconds(Integer durationInSeconds){
+        Integer seconds = durationInSeconds % 60 ;
+        Integer minutes = (durationInSeconds*60) % 60;
+        Integer hours   = (durationInSeconds*60*60) % 24;
+
+        setHours(hours);
+        setMinutes(minutes);
+        setSeconds(seconds);
+    }
+
+    public void updateDurationWithSeconds(Integer seconds){
+        setDurationInSeconds(seconds);
+    }
+
+    /**
      * Checks if the duration is at least one second.
      * @return true if the duration is > 0, false if <= 0
      */
-    public Boolean isDurationgreaterZero(){
+    public Boolean isDurationGreaterZero(){
         Boolean isDurationGreaterZero = false;
         if(getHours() > 0 || getMinutes() > 0 || getSeconds() > 0){
             isDurationGreaterZero = true;
         }
         return isDurationGreaterZero;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public Integer getHours() {
@@ -63,4 +96,5 @@ public class ExposureSessionStepDuration {
     public void setSeconds(Integer seconds) {
         this.seconds = seconds;
     }
+
 }

@@ -39,6 +39,18 @@ public class ExposureSession {
     }
 
     /**
+     * Copy Constructor.
+     * @param newSession {@link ExposureSession} to be copied.
+     */
+    public ExposureSession(final ExposureSession newSession){
+        this.sessionName = new String(newSession.sessionName);
+        this.delay = new ExposureSessionStepDuration(newSession.delay);
+        this.duration = new ExposureSessionStepDuration(newSession.duration);
+        this.interval = new ExposureSessionStepDuration(newSession.interval);
+        this.amount = new Integer(newSession.amount);
+    }
+
+    /**
      * Default constructor
      */
     public ExposureSession(){}
@@ -61,6 +73,10 @@ public class ExposureSession {
         this.delay = delay;
     }
 
+    public void setDelayValue(ExposureSessionStepDuration delay){
+        this.delay = new ExposureSessionStepDuration(delay);
+    }
+
     public ExposureSessionStepDuration getDuration() {
         return duration;
     }
@@ -69,12 +85,20 @@ public class ExposureSession {
         this.duration = duration;
     }
 
+    public void setDurationValue(ExposureSessionStepDuration duration){
+        this.duration = new ExposureSessionStepDuration(duration);
+    }
+
     public ExposureSessionStepDuration getInterval() {
         return interval;
     }
 
     public void setInterval(ExposureSessionStepDuration interval) {
         this.interval = interval;
+    }
+
+    public void setIntervalValue(ExposureSessionStepDuration interval){
+        this.interval = new ExposureSessionStepDuration(interval);
     }
 
     public Integer getAmount() {
