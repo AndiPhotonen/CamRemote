@@ -2,42 +2,39 @@ package de.andiphotonen.software.camremote.timer;
 
 import de.andiphotonen.software.camremote.controller.CamRemoteMainFormController;
 import de.andiphotonen.software.camremote.model.ExposureSession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Timer;
 
 /**
  * Created by Andreas Kieburg on 07.12.2016.
  */
-public class DelayTimer extends ExposureSessionStepTimer {
-    private Logger log = LogManager.getLogger(ExposureSessionStepTimer.class);
-    private ExposureSession currentSession;
-    private Timer timer;
-    private Boolean isTimerFinished;
+/**
+ * The implementation of the delay timer.
+ * Well... it is not really a timer.
+ */
+public class DelayTimer extends ExposureSessionStepTimer{
+    private static final String DELAY = "Delay";
 
-    public DelayTimer(ExposureSession currentSession, Timer timer) {
-        this.currentSession = currentSession;
-        this.timer = timer;
-        isTimerFinished = false;
+    /**
+     * Creates a new instance of this class.
+     * @param currentSession The currently running {@link ExposureSession}
+     */
+    public DelayTimer(ExposureSession currentSession) {
+        super(currentSession);
     }
 
     @Override
-    public void run() {
-        synchronized (this) {
+    public Boolean startTimer() {
+        if(!isTimerFinished) {
             Integer delay = currentSession.getDelay().getDurationInSeconds();
-            CamRemoteMainFormController.getCamRemoteMainForm().setExposureStatusPanelText(currentSession.getAmount().toString());
-            if (delay > 1) {
+            CamRemoteMainFormController.getCamRemoteMainForm().setExposureStepLblText(DELAY);
+            if (delay >= 1) {
                 countdown(delay);
                 updateStatus();
             } else {
-                countdown(delay);
                 updateStatus();
                 isTimerFinished = true;
-                timer.cancel();
-                notify();
             }
         }
+        return isTimerFinished;
     }
 
     @Override
@@ -49,10 +46,5 @@ public class DelayTimer extends ExposureSessionStepTimer {
     protected void countdown(Integer counter) {
         currentSession.getDelay().setDurationInSeconds(--counter);
         log.info("delay countdown: " + currentSession.getDelay().getDurationInSeconds().toString());
-    }
-
-    @Override
-    public Boolean isTimerFinished() {
-        return isTimerFinished;
     }
 }

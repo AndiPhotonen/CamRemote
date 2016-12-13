@@ -93,14 +93,6 @@ public class ExposureSession {
         return interval;
     }
 
-    public void setInterval(ExposureSessionStepDuration interval) {
-        this.interval = interval;
-    }
-
-    public void setIntervalValue(ExposureSessionStepDuration interval){
-        this.interval = new ExposureSessionStepDuration(interval);
-    }
-
     public Integer getAmount() {
         return amount;
     }

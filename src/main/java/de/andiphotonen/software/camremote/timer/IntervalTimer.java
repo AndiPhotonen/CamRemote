@@ -2,31 +2,32 @@ package de.andiphotonen.software.camremote.timer;
 
 import de.andiphotonen.software.camremote.controller.CamRemoteMainFormController;
 import de.andiphotonen.software.camremote.model.ExposureSession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Timer;
 
 /**
  * Created by Andreas Kieburg on 08.12.2016.
  */
-public class IntervalTimer extends ExposureSessionStepTimer {
-    private Logger log = LogManager.getLogger(ExposureSessionStepTimer.class);
-    private ExposureSession currentSession;
-    private Timer timer;
-    private Boolean isTimerFinished;
 
-    public IntervalTimer(ExposureSession currentSession, Timer timer){
-        this.currentSession = currentSession;
-        this.timer = timer;
-        isTimerFinished = false;
+/**
+ * The implementation of the interval timer.
+ * Well... it is not really a timer.
+ */
+public class IntervalTimer extends ExposureSessionStepTimer{
+    private static final String INTERVAL = "Interval";
+
+    /**
+     * Creates a new instance of this class.
+     * @param currentSession The currently running {@link ExposureSession}
+     */
+    public IntervalTimer(ExposureSession currentSession) {
+        super(currentSession);
     }
 
     @Override
-    public void run() {
-        synchronized (this) {
+    public Boolean startTimer() {
+        if(!isTimerFinished) {
+            CamRemoteMainFormController.getCamRemoteMainForm().setExposureStepLblText(INTERVAL);
             Integer interval = currentSession.getInterval().getDurationInSeconds();
-            CamRemoteMainFormController.getCamRemoteMainForm().setExposureStatusPanelText(currentSession.getAmount().toString());
+            //The interval duration is one second shorter then set, because reducing the amount takes an extra second
             if (interval > 1) {
                 countdown(interval);
                 updateStatus();
@@ -34,10 +35,9 @@ public class IntervalTimer extends ExposureSessionStepTimer {
                 countdown(interval);
                 updateStatus();
                 isTimerFinished = true;
-                timer.cancel();
-                notify();
             }
         }
+        return isTimerFinished;
     }
 
     @Override
@@ -49,10 +49,5 @@ public class IntervalTimer extends ExposureSessionStepTimer {
     protected void countdown(Integer counter) {
         currentSession.getInterval().setDurationInSeconds(--counter);
         log.info("interval countdown: " + currentSession.getInterval().getDurationInSeconds().toString());
-    }
-
-    @Override
-    public Boolean isTimerFinished() {
-        return isTimerFinished;
     }
 }

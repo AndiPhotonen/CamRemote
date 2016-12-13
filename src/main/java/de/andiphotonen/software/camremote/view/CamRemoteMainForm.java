@@ -190,13 +190,6 @@ public class CamRemoteMainForm extends JFrame{
         editorController.editExposureSession(exposureList.getSelectedValue());
     }
 
-    public void updateExposureNrTxt(Integer exposureNr){
-        exposureNrTxt.setText(exposureNr.toString());
-    }
-
-    public void updateExposureStepLbl(String exposureStep){
-        exposureStepLbl.setText(exposureStep);
-    }
 
     /*-------------helper methods------------------*/
 
@@ -228,11 +221,11 @@ public class CamRemoteMainForm extends JFrame{
     }
 
 /*----------------Getter & Setter----------------*/
-    public void setExposureStatusPanelText(String number){
+    public void setExposureNumberText(String number){
         exposureNrTxt.setText(number);
     }
 
-    public void setexposureStepLblText(String step){
+    public void setExposureStepLblText(String step){
         exposureStepLbl.setText(step);
     }
 }
