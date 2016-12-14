@@ -53,6 +53,7 @@ public class CamRemoteMainForm extends JFrame{
         frame.setVisible(true);
         exposureSessionListModel = new DefaultListModel<>();
 
+        setTooltipTexts();
 
         /*---------Event Listener------------*/
         addExposureBtn.addMouseListener(new MouseAdapter() {
@@ -119,6 +120,20 @@ public class CamRemoteMainForm extends JFrame{
         });
     }
 
+    /**
+     * Setting up the tooltip texts.
+     */
+    private void setTooltipTexts(){
+        addExposureBtn.setToolTipText("Add new exposure session");
+        removeExposureBtn.setToolTipText("Delete selected exposure session");
+        moveUpExposureBtn.setToolTipText("Move up selected exposure session");
+        moveDownExposureBtn.setToolTipText("Move down selected exposure session");
+        startExposureBtn.setToolTipText("Start exposure session");
+        stopExposureBtn.setToolTipText("Stop exposure session");
+        pauseToggleExposureBtn.setToolTipText("Pause / Resume exposure session");
+        editExposureBtn.setToolTipText("Edit selected exposure session");
+    }
+
     /*-----------Listener Methods------------*/
     private void onAdd() {
         log.trace("addExposureBtn clicked");
@@ -183,7 +198,7 @@ public class CamRemoteMainForm extends JFrame{
     }
 
     private void onStop() {
-        System.out.println("stop");
+        CamRemoteMainFormController.stopTimer();
     }
 
     private void onEdit() {
@@ -228,4 +243,18 @@ public class CamRemoteMainForm extends JFrame{
     public void setExposureStepLblText(String step){
         exposureStepLbl.setText(step);
     }
+
+    public void setStartExposureBtnEabled(Boolean enabled){
+        startExposureBtn.setEnabled(enabled);
+    }
+
+    public void setPauseToggleExposureBtnEnabled(Boolean enabled){
+        pauseToggleExposureBtn.setEnabled(enabled);
+    }
+
+    public void setStopExposureBtnEnabled(Boolean enabled){
+        stopExposureBtn.setEnabled(enabled);
+    }
+
+
 }

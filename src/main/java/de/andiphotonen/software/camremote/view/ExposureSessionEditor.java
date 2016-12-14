@@ -63,6 +63,7 @@ public class ExposureSessionEditor extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addExposureBtn);
+        setTooltipTexts();
 
         if (exposureSession != null){
             fillForm(exposureSession);
@@ -163,5 +164,60 @@ public class ExposureSessionEditor extends JDialog {
         setDurationForExposureStep(delayHourSpinner, delayMinutesSpinner, delaySecondsSpinner, exposureSession.getDelay());
         setDurationForExposureStep(durationHourSpinner, durationMinutesSpinner, durationSecondsSpinner, exposureSession.getDuration());
         setDurationForExposureStep(intervalHourSpinner, intervalMinutesSpinner, intervalSecondsSpinner, exposureSession.getInterval());
+    }
+
+    /**
+     * Creates custom UI components.
+     */
+    private void createUIComponents() {
+        //default values
+        Integer initValue = 0;
+        Integer minValue = 0;
+        Integer step = 1;
+
+        amountSpinner = setupSpinnerNumber(initValue, minValue, 9999, step);
+
+        delayHourSpinner = setupSpinnerNumber(initValue, minValue, 99, step);
+        delayMinutesSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+        delaySecondsSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+
+        durationHourSpinner = setupSpinnerNumber(initValue, minValue, 99, step);
+        durationMinutesSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+        durationSecondsSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+
+        intervalHourSpinner = setupSpinnerNumber(initValue, minValue, 99, step);
+        intervalMinutesSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+        intervalSecondsSpinner = setupSpinnerNumber(initValue, minValue, 59, step);
+
+    }
+
+    /**
+     * Setting up a Jspinner for numbers.
+     * @param initValue the current (non <code>null</code>) value of the model
+     * @param min the first number in the sequence or <code>null</code>
+     * @param max the last number in the sequence or <code>null</code>
+     * @param step the difference between elements of the sequence
+     * @return A new instance of {@link JSpinner}
+     */
+    private JSpinner setupSpinnerNumber(Integer initValue, Integer min, Integer max, Integer step){
+        SpinnerModel spinnerModel = new SpinnerNumberModel(initValue, min, max, step);
+        return new JSpinner(spinnerModel);
+    }
+
+    /**
+     * Setting up the tooltip texts.
+     */
+    private void setTooltipTexts(){
+        amountSpinner.setToolTipText("Amount of exposures");
+        delayHourSpinner.setToolTipText("Delay duration hours");
+        delayMinutesSpinner.setToolTipText("Delay duration minutes");
+        delaySecondsSpinner.setToolTipText("Delay duration seconds");
+        durationHourSpinner.setToolTipText("Exposure duration hours");
+        durationMinutesSpinner.setToolTipText("Exposure duration minutes");
+        durationSecondsSpinner.setToolTipText("Exposure duration seconds");
+        intervalHourSpinner.setToolTipText("Interval duration hours");
+        intervalMinutesSpinner.setToolTipText("Interval duration minutes");
+        intervalSecondsSpinner.setToolTipText("Interval duration seconds");
+        exposureSessionNameTxt.setToolTipText("Name of exposure session");
     }
 }

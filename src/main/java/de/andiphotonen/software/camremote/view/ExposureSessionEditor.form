@@ -42,21 +42,21 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="95906" class="javax.swing.JSpinner" binding="delayHourSpinner">
+              <component id="95906" class="javax.swing.JSpinner" binding="delayHourSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="1795c" class="javax.swing.JSpinner" binding="delayMinutesSpinner">
+              <component id="ecfb6" class="javax.swing.JSpinner" binding="delaySecondsSpinner" custom-create="true">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="ecfb6" class="javax.swing.JSpinner" binding="delaySecondsSpinner">
+              <component id="1795c" class="javax.swing.JSpinner" binding="delayMinutesSpinner" custom-create="true">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
@@ -70,19 +70,19 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="bc3c5" class="javax.swing.JSpinner" binding="durationHourSpinner">
+              <component id="bc3c5" class="javax.swing.JSpinner" binding="durationHourSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="e896f" class="javax.swing.JSpinner" binding="durationMinutesSpinner">
+              <component id="e896f" class="javax.swing.JSpinner" binding="durationMinutesSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="a0bb4" class="javax.swing.JSpinner" binding="durationSecondsSpinner">
+              <component id="a0bb4" class="javax.swing.JSpinner" binding="durationSecondsSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -98,19 +98,19 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="3047c" class="javax.swing.JSpinner" binding="intervalHourSpinner">
+              <component id="3047c" class="javax.swing.JSpinner" binding="intervalHourSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="b7a43" class="javax.swing.JSpinner" binding="intervalMinutesSpinner">
+              <component id="b7a43" class="javax.swing.JSpinner" binding="intervalMinutesSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="f5620" class="javax.swing.JSpinner" binding="intervalSecondsSpinner">
+              <component id="f5620" class="javax.swing.JSpinner" binding="intervalSecondsSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -160,7 +160,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="3182a" class="javax.swing.JSpinner" binding="amountSpinner">
+              <component id="3182a" class="javax.swing.JSpinner" binding="amountSpinner" custom-create="true">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

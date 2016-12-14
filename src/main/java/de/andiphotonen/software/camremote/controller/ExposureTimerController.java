@@ -62,6 +62,7 @@ public class ExposureTimerController {
      * Stops the timer.
      */
     public void stopExposureSession(){
+        log.info("Exposure session stopped");
         timer.cancel();
     }
 }

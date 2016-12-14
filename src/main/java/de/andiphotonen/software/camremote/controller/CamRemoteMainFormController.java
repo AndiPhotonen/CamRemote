@@ -44,6 +44,7 @@ public class CamRemoteMainFormController {
      * Starts the exposure session.
      */
     public static void startTimer(final ExposureSession selectedSession){
+
         timer.setupTimer(selectedSession);
         timer.startExposureSession();
     }
