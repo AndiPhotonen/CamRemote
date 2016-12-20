@@ -54,4 +54,13 @@ public class ExposureSessionStepTimerExecutor extends TimerTask {
             }
         }
     }
+
+    /**
+     * Returns a snapshot of the current {@link ExposureSession}.
+     * @return A instance of {@link ExposureSession} with the current status of progress
+     */
+    public ExposureSession getCurrentSession(){
+        return new ExposureSession(currentSession.getSessionName(), delayDuration.getCurrentSession().getDelay(),
+                exposureDuration.getCurrentSession().getDuration(), intervalDuration.getCurrentSession().getInterval(), currentSession.getAmount());
+    }
 }

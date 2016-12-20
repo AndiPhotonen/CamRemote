@@ -56,6 +56,14 @@ public class CamRemoteMainFormController {
         timer.stopExposureSession();
     }
 
+    public static void pauseTimer(){
+        timer.pauseExposureSession();
+    }
+
+    public static void resumeTimer(){
+        timer.resumeExposureSession();
+    }
+
     /**
      * Updates the timer display.
      * @param duration

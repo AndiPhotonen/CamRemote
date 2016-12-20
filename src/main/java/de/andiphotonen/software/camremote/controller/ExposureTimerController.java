@@ -65,4 +65,31 @@ public class ExposureTimerController {
         log.info("Exposure session stopped");
         timer.cancel();
     }
+
+    public void pauseExposureSession(){
+        log.info("Exposure session paused");
+        //save current running session
+        tempSession = sessionStepTimer.getCurrentSession();
+        //stop the timer
+        timer.cancel();
+    }
+
+    public void resumeExposureSession(){
+        log.info("Exposure session resumed");
+        //prepare temp session for resuming
+        prepareSessionForResuming();
+
+        timer = new Timer();
+        sessionStepTimer = new ExposureSessionStepTimerExecutor(tempSession, timer);
+        startExposureSession();
+
+    }
+
+    private void prepareSessionForResuming(){
+        //if exposure has already begun when paused, restart this exposure
+        if (tempSession.getDuration() != selectedSession.getDuration() ){
+            tempSession.setDurationValue(selectedSession.getDuration());
+        }
+
+    }
 }

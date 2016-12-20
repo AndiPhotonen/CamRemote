@@ -70,4 +70,8 @@ public class ExposureSessionStepTimer {
     protected void setCurrentSession(ExposureSession currentSession) {
         this.currentSession = currentSession;
     }
+
+    protected ExposureSession getCurrentSession(){
+        return currentSession;
+    }
 }

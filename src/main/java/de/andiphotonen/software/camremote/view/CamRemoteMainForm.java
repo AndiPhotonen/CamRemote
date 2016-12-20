@@ -28,7 +28,7 @@ public class CamRemoteMainForm extends JFrame{
     private JButton moveDownExposureBtn;
     private JScrollPane exposureListPane;
     private JButton startExposureBtn;
-    private JButton pauseToggleExposureBtn;
+    private JToggleButton pauseToggleExposureBtn;
     private JButton stopExposureBtn;
     private JButton editExposureBtn;
     private JTextField exposureStatusTimerTxt;
@@ -194,7 +194,7 @@ public class CamRemoteMainForm extends JFrame{
     }
 
     private void onPauseResume() {
-        System.out.println("pause/resume");
+        JToggleButton
     }
 
     private void onStop() {
