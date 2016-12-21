@@ -51,6 +51,8 @@ public class ExposureSessionStepTimerExecutor extends TimerTask {
                 }
             }else{
                 timer.cancel();
+                CamRemoteMainFormController.getCamRemoteMainForm().setStartExposureBtnEnabled(true);
+                CamRemoteMainFormController.getCamRemoteMainForm().setStopExposureBtnEnabled(false);
             }
         }
     }

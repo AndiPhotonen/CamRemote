@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Andreas Kieburg on 26.10.2016.
@@ -54,61 +54,58 @@ public class CamRemoteMainForm extends JFrame{
         exposureSessionListModel = new DefaultListModel<>();
 
         setTooltipTexts();
+        //disable exposure control buttons when no exposure session created
+        setStartExposureBtnEnabled(false);
+        setStopExposureBtnEnabled(false);
+        setPauseToggleExposureBtnEnabled(false);
+        setEditExposureBtnEnabled(false);
 
         /*---------Event Listener------------*/
-        addExposureBtn.addMouseListener(new MouseAdapter() {
+        addExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onAdd();
             }
         });
-        removeExposureBtn.addMouseListener(new MouseAdapter() {
+        removeExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onRemove();
             }
         });
-        moveUpExposureBtn.addMouseListener(new MouseAdapter() {
+        moveUpExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onMoveUp();
             }
         });
-        moveDownExposureBtn.addMouseListener(new MouseAdapter() {
+        moveDownExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onMoveDown();
             }
         });
-        startExposureBtn.addMouseListener(new MouseAdapter() {
+        startExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onStart();
             }
         });
-        pauseToggleExposureBtn.addMouseListener(new MouseAdapter() {
+        pauseToggleExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onPauseResume();
             }
         });
-        stopExposureBtn.addMouseListener(new MouseAdapter() {
+        stopExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onStop();
             }
         });
-        editExposureBtn.addMouseListener(new MouseAdapter() {
+        editExposureBtn.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void actionPerformed(ActionEvent e) {
                 onEdit();
             }
         });
@@ -119,6 +116,128 @@ public class CamRemoteMainForm extends JFrame{
             }
         });
     }
+
+    /*-----------Listener Methods------------*/
+
+    /**
+     * Action if Add button was pressed.
+     */
+    private void onAdd() {
+        log.trace("addExposureBtn clicked");
+        editorController.setIsCreatingNewExposureSessionFinished(false);
+        editorController.openExposureEditorForm();
+        //If successfully added a new exposureSession
+        if(editorController.getIsCreatingNewExposureSessionFinished()) {
+            String exposureSessionName = editorController.getLastAddedExposureSession().getSessionName();
+            //add this name to the exposureList
+            exposureSessionListModel.addElement(exposureSessionName);
+            log.debug(String.format("Added exposure session: %s", exposureSessionName));
+            updateExposureSessionList();
+            setStartExposureBtnEnabled(true);
+            editExposureBtn.setEnabled(true);
+        }
+    }
+
+    /**
+     * Action if Remove button was pressed.
+     */
+    private void onRemove() {
+        String confirmMessage = "Delete exposure session?";
+        Integer selectedSession = exposureList.getSelectedIndex();
+        String title = WINDOW_TITLE + "Delete exposure session";
+        //show error dialog if no sessions selected
+        if (selectedSession >= 0){
+            //if confirmed
+            if(JOptionPane.showConfirmDialog(null, confirmMessage, title, JOptionPane.YES_NO_OPTION) == 0){
+                //remove selected session from Map
+                editorController.removeExposureSession(exposureList.getSelectedValue());
+                //remove selected element from exposureList
+                exposureSessionListModel.removeElement(exposureList.getSelectedValue());
+                updateExposureSessionList();
+                if(exposureSessionListModel.isEmpty()){
+                    setStartExposureBtnEnabled(false);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No exposure session selected", title, JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    /**
+     * Action if Move up button was pressed.
+     */
+    private void onMoveUp() {
+        Integer selectedIndex = exposureList.getSelectedIndex();
+        if(selectedIndex >= 1){
+            swapExposureSessions(selectedIndex, selectedIndex -1);
+            selectedIndex = selectedIndex -1;
+            exposureList.setSelectedIndex(selectedIndex);
+            updateExposureSessionList();
+        }
+    }
+
+    /**
+     * Action if Move down button was pressed.
+     */
+    private void onMoveDown() {
+        Integer selectedIndex = exposureList.getSelectedIndex();
+        if(selectedIndex < exposureSessionListModel.size()){
+            swapExposureSessions(selectedIndex, selectedIndex +1);
+            selectedIndex = selectedIndex +1;
+            exposureList.setSelectedIndex(selectedIndex);
+            updateExposureSessionList();
+        }
+    }
+
+    /**
+     * Action if Start button was pressed.
+     */
+    private void onStart() {
+        CamRemoteMainFormController.startTimer(editorController.getExposureSessionMap().get(exposureList.getSelectedValue()));
+        setStartExposureBtnEnabled(false);
+        setStopExposureBtnEnabled(true);
+        setPauseToggleExposureBtnEnabled(true);
+
+    }
+
+    /**
+     * Action if pause or resumed toggle button was pressed.
+     */
+    private void onPauseResume() {
+        if(pauseToggleExposureBtn.isSelected()){
+            pauseToggleExposureBtn.setText("Resume");
+            CamRemoteMainFormController.pauseTimer();
+            setStartExposureBtnEnabled(false);
+        }else {
+            pauseToggleExposureBtn.setText("Pause");
+            CamRemoteMainFormController.resumeTimer();
+            setStartExposureBtnEnabled(true);
+        }
+    }
+
+    /**
+     * Action if Stop button was pressed.
+     */
+    private void onStop() {
+        CamRemoteMainFormController.stopTimer();
+
+        setStartExposureBtnEnabled(true);
+        setStopExposureBtnEnabled(false);
+        setPauseToggleExposureBtnEnabled(false);
+
+        setExposureNumberText("");
+        exposureStatusTimerTxt.setText("");
+    }
+
+    /**
+     * Action if Edit button was pressed.
+     */
+    private void onEdit() {
+        editorController.editExposureSession(exposureList.getSelectedValue());
+    }
+
+    /*-------------helper methods------------------*/
 
     /**
      * Setting up the tooltip texts.
@@ -133,80 +252,6 @@ public class CamRemoteMainForm extends JFrame{
         pauseToggleExposureBtn.setToolTipText("Pause / Resume exposure session");
         editExposureBtn.setToolTipText("Edit selected exposure session");
     }
-
-    /*-----------Listener Methods------------*/
-    private void onAdd() {
-        log.trace("addExposureBtn clicked");
-        editorController.setIsCreatingNewExposureSessionFinished(false);
-        editorController.openExposureEditorForm();
-        //If successfully added a new exposureSession
-        if(editorController.getIsCreatingNewExposureSessionFinished()) {
-            String exposureSessionName = editorController.getLastAddedExposureSession().getSessionName();
-            //add this name to the exposureList
-            exposureSessionListModel.addElement(exposureSessionName);
-            log.debug(String.format("Added exposure session: %s", exposureSessionName));
-            updateExposureSessionList();
-        }
-    }
-
-    private void onRemove() {
-        String confirmMessage = "Delete exposure session?";
-        Integer selectedSession = exposureList.getSelectedIndex();
-        String title = WINDOW_TITLE + "Delete exposure session";
-        //show error dialog if no sessions selected
-        if (selectedSession >= 0){
-            //if confirmed
-            if(JOptionPane.showConfirmDialog(null, confirmMessage, title, JOptionPane.YES_NO_OPTION) == 0){
-                //remove selected session from Map
-                editorController.removeExposureSession(exposureList.getSelectedValue());
-                //remove selected element from exposureList
-                exposureSessionListModel.removeElement(exposureList.getSelectedValue());
-                updateExposureSessionList();
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "No exposure session selected", title, JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    private void onMoveUp() {
-        Integer selectedIndex = exposureList.getSelectedIndex();
-        if(selectedIndex >= 1){
-            swapExposureSessions(selectedIndex, selectedIndex -1);
-            selectedIndex = selectedIndex -1;
-            exposureList.setSelectedIndex(selectedIndex);
-            updateExposureSessionList();
-        }
-    }
-
-    private void onMoveDown() {
-        Integer selectedIndex = exposureList.getSelectedIndex();
-        if(selectedIndex < exposureSessionListModel.size()){
-            swapExposureSessions(selectedIndex, selectedIndex +1);
-            selectedIndex = selectedIndex +1;
-            exposureList.setSelectedIndex(selectedIndex);
-            updateExposureSessionList();
-        }
-    }
-
-    private void onStart() {
-        CamRemoteMainFormController.startTimer(editorController.getExposureSessionMap().get(exposureList.getSelectedValue()));
-    }
-
-    private void onPauseResume() {
-        JToggleButton
-    }
-
-    private void onStop() {
-        CamRemoteMainFormController.stopTimer();
-    }
-
-    private void onEdit() {
-        editorController.editExposureSession(exposureList.getSelectedValue());
-    }
-
-
-    /*-------------helper methods------------------*/
 
     /**
      * Updates the Countdown Panel.
@@ -244,7 +289,7 @@ public class CamRemoteMainForm extends JFrame{
         exposureStepLbl.setText(step);
     }
 
-    public void setStartExposureBtnEabled(Boolean enabled){
+    public void setStartExposureBtnEnabled(Boolean enabled){
         startExposureBtn.setEnabled(enabled);
     }
 
@@ -256,5 +301,8 @@ public class CamRemoteMainForm extends JFrame{
         stopExposureBtn.setEnabled(enabled);
     }
 
+    public void setEditExposureBtnEnabled(Boolean enabled){
+        editExposureBtn.setEnabled(enabled);
+    }
 
 }
