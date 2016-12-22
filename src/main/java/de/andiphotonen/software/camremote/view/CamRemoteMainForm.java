@@ -2,6 +2,7 @@ package de.andiphotonen.software.camremote.view;
 
 import de.andiphotonen.software.camremote.controller.CamRemoteMainFormController;
 import de.andiphotonen.software.camremote.controller.ExposureSessionEditorController;
+import de.andiphotonen.software.camremote.model.ExposureSession;
 import de.andiphotonen.software.camremote.model.ExposureSessionStepDuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by Andreas Kieburg on 26.10.2016.
@@ -36,6 +38,9 @@ public class CamRemoteMainForm extends JFrame{
     private JTextField exposureNrTxt;
     private JLabel exposureNumberLbl;
     private JList<String> exposureList;
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem menuItem;
 
     private static final Logger log = LogManager.getLogger(CamRemoteMainForm.class);
     private static final String WINDOW_TITLE = "CamRemote";
@@ -194,11 +199,13 @@ public class CamRemoteMainForm extends JFrame{
      * Action if Start button was pressed.
      */
     private void onStart() {
-        CamRemoteMainFormController.startTimer(editorController.getExposureSessionMap().get(exposureList.getSelectedValue()));
-        setStartExposureBtnEnabled(false);
-        setStopExposureBtnEnabled(true);
-        setPauseToggleExposureBtnEnabled(true);
-
+        ExposureSession selectedSession = editorController.getExposureSessionMap().get(exposureList.getSelectedValue());
+        if(selectedSession != null) {
+            CamRemoteMainFormController.startTimer(selectedSession);
+            setStartExposureBtnEnabled(false);
+            setStopExposureBtnEnabled(true);
+            setPauseToggleExposureBtnEnabled(true);
+        }
     }
 
     /**
@@ -238,6 +245,27 @@ public class CamRemoteMainForm extends JFrame{
     }
 
     /*-------------helper methods------------------*/
+
+    private void createUIComponents() {
+        //the menu
+        createMenu();
+    }
+
+    /**
+     * Creates the menu of CamRemoteMainForm.
+     */
+    private void createMenu(){
+        //create the menuBar
+        menuBar = new JMenuBar();
+        //create the menu
+        menu = new JMenu("File");
+        menu.setMnemonic(KeyEvent.VK_F);
+        menu.getAccessibleContext().setAccessibleDescription("The File Menu");
+        menuBar.add(menu);
+        //create the menuItem
+        menuItem = new JMenuItem("Test Menu Item", KeyEvent.VK_T);
+        menu.add(menuItem);
+    }
 
     /**
      * Setting up the tooltip texts.
@@ -304,5 +332,6 @@ public class CamRemoteMainForm extends JFrame{
     public void setEditExposureBtnEnabled(Boolean enabled){
         editExposureBtn.setEnabled(enabled);
     }
+
 
 }
