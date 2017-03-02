@@ -1,3 +1,5 @@
+
+
 package de.andiphotonen.software.camremote.view;
 
 import de.andiphotonen.software.camremote.controller.CamRemoteMainFormController;
@@ -40,7 +42,9 @@ public class CamRemoteMainForm extends JFrame{
     private JList<String> exposureList;
     private JMenuBar menuBar;
     private JMenu menu;
-    private JMenuItem menuItem;
+    private JMenuItem loadExposureSessionList;
+    private JMenuItem saveExposureSessionList;
+    private JMenuItem exit;
 
     private static final Logger log = LogManager.getLogger(CamRemoteMainForm.class);
     private static final String WINDOW_TITLE = "CamRemote";
@@ -262,9 +266,12 @@ public class CamRemoteMainForm extends JFrame{
         menu.setMnemonic(KeyEvent.VK_F);
         menu.getAccessibleContext().setAccessibleDescription("The File Menu");
         menuBar.add(menu);
-        //create the menuItem
-        menuItem = new JMenuItem("Test Menu Item", KeyEvent.VK_T);
-        menu.add(menuItem);
+        //create the loadExposureSessionList
+        loadExposureSessionList = new JMenuItem("Load Exposure Session List", KeyEvent.VK_L);
+        menu.add(loadExposureSessionList);
+        saveExposureSessionList = new JMenuItem("Save Exposure Session List", KeyEvent.VK_S);
+        menu.add(saveExposureSessionList);
+        exit = new JMenuItem("Exit", KeyEvent.VK_E);
     }
 
     /**
@@ -308,7 +315,7 @@ public class CamRemoteMainForm extends JFrame{
         exposureSessionListModel.setElementAt(tempExposureSession, pastPosition);
     }
 
-/*----------------Getter & Setter----------------*/
+    /*----------------Getter & Setter----------------*/
     public void setExposureNumberText(String number){
         exposureNrTxt.setText(number);
     }
@@ -335,3 +342,4 @@ public class CamRemoteMainForm extends JFrame{
 
 
 }
+
